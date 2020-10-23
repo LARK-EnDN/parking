@@ -93,7 +93,7 @@ class _MyAppState extends State<MyApp> {
           bottomNavigationBar: manu(),
           body: TabBarView(
             children: <Widget>[
-              persontab(),
+              persontab(1),
               womentab(),
               accessibletab(),
               viptab(),
@@ -105,14 +105,34 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget persontab() {
+  Widget persontab(int i) {
     return Container(
-      color: Colors.indigo[50],
-      child: ListView.builder(
-        itemCount: b,
-        itemBuilder: (BuildContext buildContext, int index) {
-          return billtab5(index);
-        },
+      color: Colors.blue[50],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              child: Text(
+                'แนะนำช่องจอดรถสำหรับลูกค้าทั่วไป',
+                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: ListView.builder(
+                itemCount: b,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return billtab(index);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -120,11 +140,31 @@ class _MyAppState extends State<MyApp> {
   Widget womentab() {
     return Container(
       color: Colors.indigo[50],
-      child: ListView.builder(
-        itemCount: b,
-        itemBuilder: (BuildContext buildContext, int index) {
-          return billtab5(index);
-        },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              child: Text(
+                'แนะนำช่องจอดรถสำหรับสตรี',
+                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: ListView.builder(
+                itemCount: b,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return billtab(index);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -132,11 +172,31 @@ class _MyAppState extends State<MyApp> {
   Widget accessibletab() {
     return Container(
       color: Colors.indigo[50],
-      child: ListView.builder(
-        itemCount: b,
-        itemBuilder: (BuildContext buildContext, int index) {
-          return billtab5(index);
-        },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              child: Text(
+                'แนะนำช่องจอดรถสำหรับผู้นั่งรถเข็น',
+                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: ListView.builder(
+                itemCount: b,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return billtab(index);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -144,11 +204,31 @@ class _MyAppState extends State<MyApp> {
   Widget viptab() {
     return Container(
       color: Colors.indigo[50],
-      child: ListView.builder(
-        itemCount: b,
-        itemBuilder: (BuildContext buildContext, int index) {
-          return billtab5(index);
-        },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              child: Text(
+                'แนะนำช่องจอดรถสำหรับลูกค้าพิเศษ',
+                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: ListView.builder(
+                itemCount: b,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return billtab(index);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -156,20 +236,40 @@ class _MyAppState extends State<MyApp> {
   Widget all() {
     return Container(
       color: Colors.indigo[50],
-      child: ListView.builder(
-        itemCount: b,
-        itemBuilder: (BuildContext buildContext, int index) {
-          return billtab5(index);
-        },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              child: Text(
+                'ช่องจอดรถทั้งหมด',
+                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: ListView.builder(
+                itemCount: b,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return billtab(index);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
-  Widget billtab5(int index) {
+  Widget billtab(int index) {
     var bill = index + 1;
     return Padding(
       padding: const EdgeInsets.only(
-          left: 50.0, top: 10.0, right: 50.0, bottom: 15.0),
+          left: 50.0, top: 5.0, right: 50.0, bottom: 10.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -182,11 +282,11 @@ class _MyAppState extends State<MyApp> {
           ),
           SizedBox(height: 5.0),
           Container(
-            height: 220.0,
+            height: 200.0,
             child: ListView.builder(
               itemCount: f[index],
               itemBuilder: (BuildContext buildContext, int index) {
-                return floortab5(bill, index);
+                return floortab(bill, index);
               },
             ),
             decoration: BoxDecoration(
@@ -204,7 +304,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget floortab5(int b, int index) {
+  Widget floortab(int b, int index) {
     var floor = index + 1;
     String x = '$b$floor';
     var xout, a = sall5[x], bb = resall5[x];
@@ -226,7 +326,7 @@ class _MyAppState extends State<MyApp> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(10.0),
+            padding: const EdgeInsets.only(left: 15.0, right: 0, top: 10.0),
             child: Text(
               'ชั้น $floor',
               style: TextStyle(
@@ -235,13 +335,13 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Container(
-                width: 200,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0),
+          Padding(
+            padding: const EdgeInsets.only(left: 15.0, bottom: 5.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Container(
+                  width: 200,
                   child: Text(
                     s5[x],
                     style: TextStyle(
@@ -250,11 +350,7 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                 ),
-              ),
-              Container(
-                width: 90,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10.0),
+                Container(
                   child: Text(
                     '$xout',
                     textAlign: TextAlign.right,
@@ -264,8 +360,8 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ],
       ),
