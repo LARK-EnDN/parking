@@ -107,48 +107,69 @@ class _MyAppState extends State<MyApp> {
 
   Widget persontab() {
     return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Text('tab 1'),
+      color: Colors.indigo[50],
+      child: ListView.builder(
+        itemCount: b,
+        itemBuilder: (BuildContext buildContext, int index) {
+          return billtab5(index);
+        },
+      ),
     );
   }
 
   Widget womentab() {
     return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Text('tab 2'),
+      color: Colors.indigo[50],
+      child: ListView.builder(
+        itemCount: b,
+        itemBuilder: (BuildContext buildContext, int index) {
+          return billtab5(index);
+        },
+      ),
     );
   }
 
   Widget accessibletab() {
     return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Text('tab 3'),
+      color: Colors.indigo[50],
+      child: ListView.builder(
+        itemCount: b,
+        itemBuilder: (BuildContext buildContext, int index) {
+          return billtab5(index);
+        },
+      ),
     );
   }
 
   Widget viptab() {
     return Container(
-      margin: EdgeInsets.all(20.0),
-      child: Text('tab 4'),
+      color: Colors.indigo[50],
+      child: ListView.builder(
+        itemCount: b,
+        itemBuilder: (BuildContext buildContext, int index) {
+          return billtab5(index);
+        },
+      ),
     );
   }
 
   Widget all() {
     return Container(
-        color: Colors.indigo[50],
-        child: ListView.builder(
-          itemCount: b,
-          itemBuilder: (BuildContext buildContext, int index) {
-            return billtab5(index);
-          },
-        ));
+      color: Colors.indigo[50],
+      child: ListView.builder(
+        itemCount: b,
+        itemBuilder: (BuildContext buildContext, int index) {
+          return billtab5(index);
+        },
+      ),
+    );
   }
 
   Widget billtab5(int index) {
     var bill = index + 1;
     return Padding(
       padding: const EdgeInsets.only(
-          left: 30.0, top: 10.0, right: 30.0, bottom: 15.0),
+          left: 50.0, top: 10.0, right: 50.0, bottom: 15.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -161,7 +182,7 @@ class _MyAppState extends State<MyApp> {
           ),
           SizedBox(height: 5.0),
           Container(
-            height: 250.0,
+            height: 220.0,
             child: ListView.builder(
               itemCount: f[index],
               itemBuilder: (BuildContext buildContext, int index) {
@@ -169,9 +190,14 @@ class _MyAppState extends State<MyApp> {
               },
             ),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: Colors.grey[50],
-            ),
+                borderRadius: BorderRadius.circular(10),
+                color: Colors.grey[50],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.indigo[100],
+                      blurRadius: 10.0,
+                      spreadRadius: 1.0)
+                ]),
           ),
         ],
       ),
@@ -181,7 +207,7 @@ class _MyAppState extends State<MyApp> {
   Widget floortab5(int b, int index) {
     var floor = index + 1;
     String x = '$b$floor';
-    var xout,a = sall5[x],bb = resall5[x];
+    var xout, a = sall5[x], bb = resall5[x];
     if (s5[x] == null || s5[x] == '') {
       s5[x] = 'ไม่ว่าง';
     }
@@ -189,6 +215,10 @@ class _MyAppState extends State<MyApp> {
       a = int.parse('$a');
       b = int.parse('$bb');
       xout = a - bb;
+      xout = '$xout/$a';
+    }
+    if (xout == null || xout == '0/$a') {
+      xout = '';
     }
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
@@ -209,7 +239,7 @@ class _MyAppState extends State<MyApp> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                width: 220,
+                width: 200,
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: Text(
@@ -226,7 +256,8 @@ class _MyAppState extends State<MyApp> {
                 child: Padding(
                   padding: EdgeInsets.only(left: 10.0),
                   child: Text(
-                    '$xout/$a',textAlign: TextAlign.right,
+                    '$xout',
+                    textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 20.0,
                       color: Colors.grey[700],
