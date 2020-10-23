@@ -93,11 +93,12 @@ class _MyAppState extends State<MyApp> {
           bottomNavigationBar: manu(),
           body: TabBarView(
             children: <Widget>[
+              all(0),
               persontab(1),
-              womentab(),
-              accessibletab(),
-              viptab(),
-              all(),
+              womentab(2),
+              accessibletab(3),
+              viptab(4),
+              
             ],
           ),
         ),
@@ -107,7 +108,7 @@ class _MyAppState extends State<MyApp> {
 
   Widget persontab(int i) {
     return Container(
-      color: Colors.blue[50],
+      color: Colors.green[50],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -127,7 +128,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(index);
+                  return billtab(i,index);
                 },
               ),
             ),
@@ -137,9 +138,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget womentab() {
+  Widget womentab(int i) {
     return Container(
-      color: Colors.indigo[50],
+      color: Colors.pink[50],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -159,7 +160,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(index);
+                  return billtab(i,index);
                 },
               ),
             ),
@@ -169,9 +170,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget accessibletab() {
+  Widget accessibletab(int i) {
     return Container(
-      color: Colors.indigo[50],
+      color: Colors.blue[50],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -191,7 +192,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(index);
+                  return billtab(i,index);
                 },
               ),
             ),
@@ -201,9 +202,9 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget viptab() {
+  Widget viptab(int i) {
     return Container(
-      color: Colors.indigo[50],
+      color: Colors.orange[50],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
@@ -223,7 +224,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(index);
+                  return billtab(i,index);
                 },
               ),
             ),
@@ -233,7 +234,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget all() {
+  Widget all(int i) {
     return Container(
       color: Colors.indigo[50],
       child: Column(
@@ -255,7 +256,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(index);
+                  return billtab(i,index);
                 },
               ),
             ),
@@ -265,8 +266,18 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget billtab(int index) {
+  Widget billtab(int i,int index) {
     var bill = index + 1;
+    var shcol;
+    switch (i) {
+      case 0: shcol = Colors.indigo[100];break;
+      case 1: shcol = Colors.green[100];break;
+      case 2: shcol = Colors.pink[100];break;
+      case 3: shcol = Colors.blue[100];break;
+      case 4: shcol = Colors.orange[100];break;
+      
+    }
+    
     return Padding(
       padding: const EdgeInsets.only(
           left: 50.0, top: 5.0, right: 50.0, bottom: 10.0),
@@ -286,7 +297,7 @@ class _MyAppState extends State<MyApp> {
             child: ListView.builder(
               itemCount: f[index],
               itemBuilder: (BuildContext buildContext, int index) {
-                return floortab(bill, index);
+                return floortab(i,bill, index);
               },
             ),
             decoration: BoxDecoration(
@@ -294,7 +305,7 @@ class _MyAppState extends State<MyApp> {
                 color: Colors.grey[50],
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.indigo[100],
+                      color: shcol,
                       blurRadius: 10.0,
                       spreadRadius: 1.0)
                 ]),
@@ -304,7 +315,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget floortab(int b, int index) {
+  Widget floortab(int i,int b, int index) {
     var floor = index + 1;
     String x = '$b$floor';
     var xout, a = sall5[x], bb = resall5[x];
@@ -378,11 +389,11 @@ class _MyAppState extends State<MyApp> {
         indicatorPadding: EdgeInsets.all(5.0),
         indicatorColor: Colors.white,
         tabs: [
+          Tab(icon: Icon(Icons.directions_car)),
           Tab(icon: Icon(Icons.person)),
           Tab(icon: Icon(Icons.pregnant_woman)),
           Tab(icon: Icon(Icons.accessible)),
           Tab(icon: Icon(Icons.work)),
-          Tab(icon: Icon(Icons.directions_car)),
         ],
       ),
     );
