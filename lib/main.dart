@@ -82,13 +82,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        primaryColor: Colors.indigo,
+        primaryColor: Colors.grey[850],
       ),
       home: DefaultTabController(
         length: 5,
         child: Scaffold(
           appBar: AppBar(
-            title: Text('Parking Status'),
+            title: Text(
+              'Parking Status',
+              style: TextStyle(color: Colors.grey[100]),
+            ),
           ),
           bottomNavigationBar: manu(),
           body: TabBarView(
@@ -98,7 +101,6 @@ class _MyAppState extends State<MyApp> {
               womentab(2),
               accessibletab(3),
               viptab(4),
-              
             ],
           ),
         ),
@@ -108,17 +110,20 @@ class _MyAppState extends State<MyApp> {
 
   Widget persontab(int i) {
     return Container(
-      color: Colors.green[50],
+      color: Colors.teal[800],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             flex: 0,
             child: Padding(
-              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
               child: Text(
                 'แนะนำช่องจอดรถสำหรับลูกค้าทั่วไป',
-                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.teal[100],
+                ),
               ),
             ),
           ),
@@ -128,7 +133,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(i,index);
+                  return billtab(i, index);
                 },
               ),
             ),
@@ -140,17 +145,20 @@ class _MyAppState extends State<MyApp> {
 
   Widget womentab(int i) {
     return Container(
-      color: Colors.pink[50],
+      color: Colors.purple[800],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             flex: 0,
             child: Padding(
-              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
               child: Text(
                 'แนะนำช่องจอดรถสำหรับสตรี',
-                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.purple[100],
+                ),
               ),
             ),
           ),
@@ -160,7 +168,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(i,index);
+                  return billtab(i, index);
                 },
               ),
             ),
@@ -172,17 +180,20 @@ class _MyAppState extends State<MyApp> {
 
   Widget accessibletab(int i) {
     return Container(
-      color: Colors.blue[50],
+      color: Colors.blue[800],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             flex: 0,
             child: Padding(
-              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
               child: Text(
                 'แนะนำช่องจอดรถสำหรับผู้นั่งรถเข็น',
-                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.blue[100],
+                ),
               ),
             ),
           ),
@@ -192,7 +203,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(i,index);
+                  return billtab(i, index);
                 },
               ),
             ),
@@ -204,17 +215,20 @@ class _MyAppState extends State<MyApp> {
 
   Widget viptab(int i) {
     return Container(
-      color: Colors.orange[50],
+      color: Colors.brown[800],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             flex: 0,
             child: Padding(
-              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
               child: Text(
                 'แนะนำช่องจอดรถสำหรับลูกค้าพิเศษ',
-                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.brown[100],
+                ),
               ),
             ),
           ),
@@ -224,7 +238,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(i,index);
+                  return billtab(i, index);
                 },
               ),
             ),
@@ -236,17 +250,20 @@ class _MyAppState extends State<MyApp> {
 
   Widget all(int i) {
     return Container(
-      color: Colors.indigo[50],
+      color: Colors.indigo[800],
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
           Expanded(
             flex: 0,
             child: Padding(
-              padding: const EdgeInsets.only(top: 15.0,bottom: 10.0),
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
               child: Text(
                 'ช่องจอดรถทั้งหมด',
-                style: TextStyle(fontSize: 20.0, color: Colors.grey[800],),
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.indigo[100],
+                ),
               ),
             ),
           ),
@@ -256,7 +273,7 @@ class _MyAppState extends State<MyApp> {
               child: ListView.builder(
                 itemCount: b,
                 itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(i,index);
+                  return billtab(i, index);
                 },
               ),
             ),
@@ -266,18 +283,37 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget billtab(int i,int index) {
+  Widget billtab(int i, int index) {
     var bill = index + 1;
-    var shcol;
+    var shcol, billcol, borcol;
     switch (i) {
-      case 0: shcol = Colors.indigo[100];break;
-      case 1: shcol = Colors.green[100];break;
-      case 2: shcol = Colors.pink[100];break;
-      case 3: shcol = Colors.blue[100];break;
-      case 4: shcol = Colors.orange[100];break;
-      
+      case 0:
+        shcol = Colors.indigo[900];
+        billcol = Colors.indigo[200];
+        borcol = Colors.indigo;
+        break;
+      case 1:
+        shcol = Colors.teal[900];
+        billcol = Colors.teal[200];
+        borcol = Colors.teal;
+        break;
+      case 2:
+        shcol = Colors.purple[900];
+        billcol = Colors.purple[200];
+        borcol = Colors.purple;
+        break;
+      case 3:
+        shcol = Colors.blue[900];
+        billcol = Colors.blue[200];
+        borcol = Colors.blue;
+        break;
+      case 4:
+        shcol = Colors.brown[900];
+        billcol = Colors.brown[200];
+        borcol = Colors.brown;
+        break;
     }
-    
+
     return Padding(
       padding: const EdgeInsets.only(
           left: 50.0, top: 5.0, right: 50.0, bottom: 10.0),
@@ -288,7 +324,7 @@ class _MyAppState extends State<MyApp> {
             'อาคารจอดรถ $bill',
             style: TextStyle(
               fontSize: 18.0,
-              color: Colors.grey[800],
+              color: billcol,
             ),
           ),
           SizedBox(height: 5.0),
@@ -297,17 +333,18 @@ class _MyAppState extends State<MyApp> {
             child: ListView.builder(
               itemCount: f[index],
               itemBuilder: (BuildContext buildContext, int index) {
-                return floortab(i,bill, index);
+                return floortab(i, bill, index);
               },
             ),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.grey[50],
+                color: borcol,
                 boxShadow: [
                   BoxShadow(
-                      color: shcol,
-                      blurRadius: 10.0,
-                      spreadRadius: 1.0)
+                    color: shcol,
+                    blurRadius: 10.0,
+                    spreadRadius: 1.0,
+                  )
                 ]),
           ),
         ],
@@ -315,7 +352,25 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget floortab(int i,int b, int index) {
+  Widget floortab(int i, int b, int index) {
+    var texcol;
+    switch (i) {
+      case 0:
+        texcol = Colors.indigo[100];
+        break;
+      case 1:
+        texcol = Colors.teal[100];
+        break;
+      case 2:
+        texcol = Colors.pink[100];
+        break;
+      case 3:
+        texcol = Colors.blue[100];
+        break;
+      case 4:
+        texcol = Colors.brown[100];
+        break;
+    }
     var floor = index + 1;
     String x = '$b$floor';
     var xout, a = sall5[x], bb = resall5[x];
@@ -342,7 +397,7 @@ class _MyAppState extends State<MyApp> {
               'ชั้น $floor',
               style: TextStyle(
                 fontSize: 18.0,
-                color: Colors.grey[800],
+                color: texcol,
               ),
             ),
           ),
@@ -357,7 +412,8 @@ class _MyAppState extends State<MyApp> {
                     s5[x],
                     style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.grey[700],
+                      color: texcol,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
@@ -367,7 +423,7 @@ class _MyAppState extends State<MyApp> {
                     textAlign: TextAlign.right,
                     style: TextStyle(
                       fontSize: 20.0,
-                      color: Colors.grey[700],
+                      color: texcol,
                     ),
                   ),
                 ),
@@ -381,7 +437,7 @@ class _MyAppState extends State<MyApp> {
 
   Widget manu() {
     return Container(
-      color: Colors.indigo,
+      color: Colors.grey[850],
       padding: EdgeInsets.all(5.0),
       child: TabBar(
         unselectedLabelColor: Colors.white54,
