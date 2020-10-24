@@ -1,5 +1,6 @@
 // import 'dart:ffi';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 
@@ -14,6 +15,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Ref = FirebaseDatabase.instance.reference();
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   String text = '';
   int b;
   List<int> f = [];
@@ -26,6 +28,20 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     readAllData();
+
+    // _firebaseMessaging.configure(
+    //   onMessage: (Map<String, dynamic> message) async {
+    //     print("onMessage: $message");
+    //   },
+    //   onBackgroundMessage: myBackgroundMessageHandler,
+    //   onLaunch: (Map<String, dynamic> message) async {
+    //     print("onLaunch: $message");
+    //   },
+    //   onResume: (Map<String, dynamic> message) async {
+    //     print("onResume: $message");
+    //   },
+    // );
+
   }
 
   Future<void> readAllData() async {
@@ -79,10 +95,6 @@ class _MyAppState extends State<MyApp> {
                         resall[x] = sall[x] - scount[x];
                         s[x] = text;
                       });
-                      // print(s);
-                      // print(scount);
-                      // print(sall);
-                      // print(resall);
                     }
                   }
                 });
@@ -93,6 +105,7 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
+
 
   Widget build(BuildContext context) {
     return MaterialApp(
