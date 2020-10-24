@@ -62,7 +62,6 @@ class _MyAppState extends State<MyApp> {
                             var ty = k['type'];
                             var nam = k['name'];
                             all++;
-                            print('$nam  $ty');
                             if (k['status'] == 0) {
                               text += name[3];
                               text += '  ';
