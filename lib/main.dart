@@ -15,36 +15,25 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   final Ref = FirebaseDatabase.instance.reference();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  String text = '';
+  final FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
+
+  String text = '', textoff = '';
   int b;
   List<int> f = [];
   var s = new Map();
   var scount = new Map();
   var sall = new Map();
   var resall = new Map();
+  var soff = new Map();
 
   @override
   void initState() {
     super.initState();
     readAllData();
-
-    // _firebaseMessaging.configure(
-    //   onMessage: (Map<String, dynamic> message) async {
-    //     print("onMessage: $message");
-    //   },
-    //   onBackgroundMessage: myBackgroundMessageHandler,
-    //   onLaunch: (Map<String, dynamic> message) async {
-    //     print("onLaunch: $message");
-    //   },
-    //   onResume: (Map<String, dynamic> message) async {
-    //     print("onResume: $message");
-    //   },
-    // );
-
   }
 
   Future<void> readAllData() async {
+
     await Ref.child('status_and_name').once().then((snap) {
       if (snap.value != null) {
         Map<dynamic, dynamic> snapshot = snap.value;
@@ -65,35 +54,43 @@ class _MyAppState extends State<MyApp> {
                     List<dynamic> snapshot = snap.snapshot.value;
                     for (var i = 0; i < 5; i++) {
                       text = '';
+                      textoff = '';
                       x = '$i' + xx;
                       all = 0;
                       for (var k in snapshot) {
                         if (k != null) {
                           var name = k['name'].split('_');
-                          if (k['status'] == 0 && i == 4) {
-                            all = snapshot.length - 1;
-                            text += name[3];
-                            text += '  ';
-                          }else if (k['type'] == '$i') {
-                            var ty = k['type'];
-                            var nam = k['name'];
+                          if (i == 4) {
+                            if (k['status'] == 0) {
+                              all = snapshot.length - 1;
+                              text += name[3];
+                              text += '  ';
+                            }
+                            if (k['status'] == 2) {
+                              textoff += name[3];
+                              textoff += '  ';
+                            }
+                          } else if (k['type'] == '$i') {
                             all++;
                             if (k['status'] == 0) {
                               text += name[3];
                               text += '  ';
                             }
+                            if (k['status'] == 2) {
+                              textoff += name[3];
+                              textoff += '  ';
+                            }
                           }
                         }
                       }
-
                       var sptext = text.split('  ');
                       var count = sptext.length - 1;
-
                       setState(() {
                         sall[x] = all;
                         scount[x] = count;
                         resall[x] = sall[x] - scount[x];
                         s[x] = text;
+                        soff[x] = textoff;
                       });
                     }
                   }
@@ -105,7 +102,6 @@ class _MyAppState extends State<MyApp> {
       }
     });
   }
-
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -381,7 +377,8 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget floortab(int i, int b, int index) {
-    var texcol;
+    var texcol, off;
+    off = offline(i, b, index + 1);
     switch (i) {
       case 4:
         texcol = Colors.indigo[100];
@@ -390,7 +387,7 @@ class _MyAppState extends State<MyApp> {
         texcol = Colors.teal[100];
         break;
       case 1:
-        texcol = Colors.pink[100];
+        texcol = Colors.purple[100];
         break;
       case 2:
         texcol = Colors.blue[100];
@@ -404,6 +401,7 @@ class _MyAppState extends State<MyApp> {
     var xout, a = sall[x], bb = resall[x];
     if (s[x] == null || s[x] == '') {
       s[x] = 'ไม่ว่าง';
+      off = SizedBox(width: 0);
     }
     if (sall[x] != null) {
       a = int.parse('$a');
@@ -434,24 +432,38 @@ class _MyAppState extends State<MyApp> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Container(
-                  width: 200,
-                  child: Text(
-                    s[x],
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: texcol,
-                      fontWeight: FontWeight.bold,
+                Expanded(
+                  flex: 1,
+                  child: Container(
+                    // width: 200,
+                    child: Row(
+                      children: <Widget>[
+                        Expanded(
+                          flex: 1,
+                          child: Text(
+                            s[x],
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              color: texcol,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        off,
+                      ],
                     ),
                   ),
                 ),
-                Container(
-                  child: Text(
-                    '$xout',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      fontSize: 20.0,
-                      color: texcol,
+                Expanded(
+                  flex: 0,
+                  child: Container(
+                    child: Text(
+                      '$xout',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        fontSize: 20.0,
+                        color: texcol,
+                      ),
                     ),
                   ),
                 ),
@@ -459,6 +471,43 @@ class _MyAppState extends State<MyApp> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget offline(int i, int b, int index) {
+    var x = '$i$b$index', texcol;
+    if (soff[x] == null || soff[x] == '') soff[x] = '';
+    switch (i) {
+      case 4:
+        texcol = Colors.indigo[400];
+        break;
+      case 0:
+        texcol = Colors.teal[400];
+        break;
+      case 1:
+        texcol = Colors.purple[400];
+        break;
+      case 2:
+        texcol = Colors.blue[400];
+        break;
+      case 3:
+        texcol = Colors.brown[400];
+        break;
+    }
+    return Expanded(
+      flex: 1,
+      child: Padding(
+        padding: const EdgeInsets.only(right: 10.0, left: 10.0),
+        child: Text(
+          soff[x],
+          style: TextStyle(
+            fontSize: 20.0,
+            color: texcol,
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     );
   }
