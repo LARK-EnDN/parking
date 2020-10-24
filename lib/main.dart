@@ -1,4 +1,4 @@
-import 'dart:ffi';
+// import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -17,10 +17,10 @@ class _MyAppState extends State<MyApp> {
   String text = '';
   int b;
   List<int> f = [];
-  var s5 = new Map();
-  var scount5 = new Map();
-  var sall5 = new Map();
-  var resall5 = new Map();
+  var s = new Map();
+  var scount = new Map();
+  var sall = new Map();
+  var resall = new Map();
 
   @override
   void initState() {
@@ -41,34 +41,50 @@ class _MyAppState extends State<MyApp> {
               snapshot.forEach((f, value) {
                 var bb = b.split('_');
                 var ff = f.split('_');
-                var x = bb[1] + ff[1];
+                var xx = bb[1] + ff[1], x, all;
                 Ref.child('status_and_name/' + b + '/' + f + '/sensor')
                     .onValue
                     .listen((Event snap) {
                   if (snap.snapshot.value != null) {
                     List<dynamic> snapshot = snap.snapshot.value;
-                    text = '';
-                    var all = snapshot.length - 1;
-                    setState(() {
-                      sall5[x] = all;
-                    });
-                    for (var k in snapshot) {
-                      if (k != null) {
-                        var name = k['name'].split('_');
-                        if (k['status'] == 0) {
-                          text += name[3];
-                          text += '  ';
+                    for (var i = 0; i < 5; i++) {
+                      text = '';
+                      x = '$i' + xx;
+                      all = 0;
+                      for (var k in snapshot) {
+                        if (k != null) {
+                          var name = k['name'].split('_');
+                          if (k['status'] == 0 && i == 4) {
+                            all = snapshot.length - 1;
+                            text += name[3];
+                            text += '  ';
+                          }else if (k['type'] == '$i') {
+                            var ty = k['type'];
+                            var nam = k['name'];
+                            all++;
+                            print('$nam  $ty');
+                            if (k['status'] == 0) {
+                              text += name[3];
+                              text += '  ';
+                            }
+                          }
                         }
                       }
-                    }
-                    var sptext = text.split('  ');
-                    var count = sptext.length - 1;
 
-                    setState(() {
-                      scount5[x] = count;
-                      resall5[x] = sall5[x] - scount5[x];
-                      s5[x] = text;
-                    });
+                      var sptext = text.split('  ');
+                      var count = sptext.length - 1;
+
+                      setState(() {
+                        sall[x] = all;
+                        scount[x] = count;
+                        resall[x] = sall[x] - scount[x];
+                        s[x] = text;
+                      });
+                      // print(s);
+                      // print(scount);
+                      // print(sall);
+                      // print(resall);
+                    }
                   }
                 });
               });
@@ -96,14 +112,49 @@ class _MyAppState extends State<MyApp> {
           bottomNavigationBar: manu(),
           body: TabBarView(
             children: <Widget>[
-              all(0),
-              persontab(1),
-              womentab(2),
-              accessibletab(3),
-              viptab(4),
+              all(4),
+              persontab(0),
+              womentab(1),
+              accessibletab(2),
+              viptab(3),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget all(int i) {
+    return Container(
+      color: Colors.indigo[800],
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Expanded(
+            flex: 0,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
+              child: Text(
+                'ช่องจอดรถทั้งหมด',
+                style: TextStyle(
+                  fontSize: 20.0,
+                  color: Colors.indigo[100],
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 1,
+            child: Container(
+              child: ListView.builder(
+                itemCount: b,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return billtab(i, index);
+                },
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -248,66 +299,31 @@ class _MyAppState extends State<MyApp> {
     );
   }
 
-  Widget all(int i) {
-    return Container(
-      color: Colors.indigo[800],
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          Expanded(
-            flex: 0,
-            child: Padding(
-              padding: const EdgeInsets.only(top: 15.0, bottom: 10.0),
-              child: Text(
-                'ช่องจอดรถทั้งหมด',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  color: Colors.indigo[100],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 1,
-            child: Container(
-              child: ListView.builder(
-                itemCount: b,
-                itemBuilder: (BuildContext buildContext, int index) {
-                  return billtab(i, index);
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
   Widget billtab(int i, int index) {
     var bill = index + 1;
     var shcol, billcol, borcol;
     switch (i) {
-      case 0:
+      case 4:
         shcol = Colors.indigo[900];
         billcol = Colors.indigo[200];
         borcol = Colors.indigo;
         break;
-      case 1:
+      case 0:
         shcol = Colors.teal[900];
         billcol = Colors.teal[200];
         borcol = Colors.teal;
         break;
-      case 2:
+      case 1:
         shcol = Colors.purple[900];
         billcol = Colors.purple[200];
         borcol = Colors.purple;
         break;
-      case 3:
+      case 2:
         shcol = Colors.blue[900];
         billcol = Colors.blue[200];
         borcol = Colors.blue;
         break;
-      case 4:
+      case 3:
         shcol = Colors.brown[900];
         billcol = Colors.brown[200];
         borcol = Colors.brown;
@@ -355,29 +371,29 @@ class _MyAppState extends State<MyApp> {
   Widget floortab(int i, int b, int index) {
     var texcol;
     switch (i) {
-      case 0:
+      case 4:
         texcol = Colors.indigo[100];
         break;
-      case 1:
+      case 0:
         texcol = Colors.teal[100];
         break;
-      case 2:
+      case 1:
         texcol = Colors.pink[100];
         break;
-      case 3:
+      case 2:
         texcol = Colors.blue[100];
         break;
-      case 4:
+      case 3:
         texcol = Colors.brown[100];
         break;
     }
     var floor = index + 1;
-    String x = '$b$floor';
-    var xout, a = sall5[x], bb = resall5[x];
-    if (s5[x] == null || s5[x] == '') {
-      s5[x] = 'ไม่ว่าง';
+    String x = '$i$b$floor';
+    var xout, a = sall[x], bb = resall[x];
+    if (s[x] == null || s[x] == '') {
+      s[x] = 'ไม่ว่าง';
     }
-    if (sall5[x] != null) {
+    if (sall[x] != null) {
       a = int.parse('$a');
       b = int.parse('$bb');
       xout = a - bb;
@@ -409,7 +425,7 @@ class _MyAppState extends State<MyApp> {
                 Container(
                   width: 200,
                   child: Text(
-                    s5[x],
+                    s[x],
                     style: TextStyle(
                       fontSize: 20.0,
                       color: texcol,
