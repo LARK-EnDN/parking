@@ -16,10 +16,11 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final Ref = FirebaseDatabase.instance.reference();
   final FirebaseMessaging firebaseMessaging = new FirebaseMessaging();
-
-  String text = '', textoff = '';
-  int b;
+  var show;
+  String text = '', textoff = '', boff = '';
+  int b = 0;
   List<int> f = [];
+  var bsta = new Map();
   var s = new Map();
   var scount = new Map();
   var sall = new Map();
@@ -33,7 +34,6 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> readAllData() async {
-
     await Ref.child('status_and_name').once().then((snap) {
       if (snap.value != null) {
         Map<dynamic, dynamic> snapshot = snap.value;
@@ -47,53 +47,69 @@ class _MyAppState extends State<MyApp> {
                 var bb = b.split('_');
                 var ff = f.split('_');
                 var xx = bb[1] + ff[1], x, all;
-                Ref.child('status_and_name/' + b + '/' + f + '/sensor')
+                Ref.child('status_and_name/' + b + '/' + f + '/board/1/status')
                     .onValue
                     .listen((Event snap) {
-                  if (snap.snapshot.value != null) {
-                    List<dynamic> snapshot = snap.snapshot.value;
-                    for (var i = 0; i < 5; i++) {
-                      text = '';
-                      textoff = '';
-                      x = '$i' + xx;
-                      all = 0;
-                      for (var k in snapshot) {
-                        if (k != null) {
-                          var name = k['name'].split('_');
-                          if (i == 4) {
-                            if (k['status'] == 0) {
-                              all = snapshot.length - 1;
-                              text += name[3];
-                              text += '  ';
-                            }
-                            if (k['status'] == 2) {
-                              textoff += name[3];
-                              textoff += '  ';
-                            }
-                          } else if (k['type'] == '$i') {
-                            all++;
-                            if (k['status'] == 0) {
-                              text += name[3];
-                              text += '  ';
-                            }
-                            if (k['status'] == 2) {
-                              textoff += name[3];
-                              textoff += '  ';
+                  setState(() {
+                    bsta[xx] = snap.snapshot.value;
+                  });
+
+                  Ref.child('status_and_name/' + b + '/' + f + '/sensor')
+                      .onValue
+                      .listen((Event snap) {
+                    if (snap.snapshot.value != null) {
+                      List<dynamic> snapshot = snap.snapshot.value;
+                      for (var i = 0; i < 5; i++) {
+                        text = '';
+                        textoff = '';
+                        x = '$i' + xx;
+                        all = 0;
+                        for (var k in snapshot) {
+                          if (k != null) {
+                            var name = k['name'].split('_');
+                            if (i == 4) {
+                              if (k['status'] == 0) {
+                                all = snapshot.length - 1;
+                                text += name[3];
+                                text += '  ';
+                              }
+                              if (k['status'] == 2 && bsta[xx] != 2) {
+                                textoff += name[3];
+                                textoff += '  ';
+                              }
+                              if (bsta[xx] == 2) {
+                                textoff += name[3];
+                                textoff += '  ';
+                              }
+                            } else if (k['type'] == '$i') {
+                              all++;
+                              if (k['status'] == 0) {
+                                text += name[3];
+                                text += '  ';
+                              }
+                              if (k['status'] == 2 && bsta[xx] != 2) {
+                                textoff += name[3];
+                                textoff += '  ';
+                              }
+                              if (bsta[xx] == 2) {
+                                textoff += name[3];
+                                textoff += '  ';
+                              }
                             }
                           }
                         }
+                        var sptext = text.split('  ');
+                        var count = sptext.length - 1;
+                        setState(() {
+                          sall[x] = all;
+                          scount[x] = count;
+                          resall[x] = sall[x] - scount[x];
+                          s[x] = text;
+                          soff[x] = textoff;
+                        });
                       }
-                      var sptext = text.split('  ');
-                      var count = sptext.length - 1;
-                      setState(() {
-                        sall[x] = all;
-                        scount[x] = count;
-                        resall[x] = sall[x] - scount[x];
-                        s[x] = text;
-                        soff[x] = textoff;
-                      });
                     }
-                  }
+                  });
                 });
               });
             }
@@ -377,7 +393,7 @@ class _MyAppState extends State<MyApp> {
   }
 
   Widget floortab(int i, int b, int index) {
-    var texcol, off;
+    var texcol, off, flex;
     off = offline(i, b, index + 1);
     switch (i) {
       case 4:
@@ -397,13 +413,12 @@ class _MyAppState extends State<MyApp> {
         break;
     }
     var floor = index + 1;
-    String x = '$i$b$floor';
+    String x = '$i$b$floor', xx = '$b$floor';
     var xout, a = sall[x], bb = resall[x];
     if (s[x] == null || s[x] == '') {
       s[x] = 'ไม่ว่าง';
-      off = SizedBox(width: 0);
-    }
-    if (sall[x] != null) {
+      if (bsta[xx] != 2) {off = SizedBox(width: 0);}
+    } else if (sall[x] != null) {
       a = int.parse('$a');
       b = int.parse('$bb');
       xout = a - bb;
@@ -411,6 +426,38 @@ class _MyAppState extends State<MyApp> {
     }
     if (xout == null || xout == '0/$a') {
       xout = '';
+    }
+    if (bsta[xx] == 2) {
+      flex = 0;
+      show = SizedBox(width: 0);
+      xout = '';
+      if ((soff[x] == null || soff[x] == '')) {
+        show = Text(
+          s[x],
+          style: TextStyle(
+            fontSize: 20.0,
+            color: texcol,
+            fontWeight: FontWeight.bold,
+          ),
+        );
+      }
+    }
+    if (bsta[xx] == 1 || bsta[xx] == null) {
+      flex = 1;
+      show = Text(
+        s[x],
+        style: TextStyle(
+          fontSize: 20.0,
+          color: texcol,
+          fontWeight: FontWeight.bold,
+        ),
+      );
+      print(x+'='+soff[x]);
+      if(s[x] == 'ไม่ว่าง' && soff[x] !=''){
+        flex = 0;
+        show = SizedBox(width: 0);
+        off = offline(i, b, index + 1);
+      }
     }
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
@@ -439,15 +486,8 @@ class _MyAppState extends State<MyApp> {
                     child: Row(
                       children: <Widget>[
                         Expanded(
-                          flex: 1,
-                          child: Text(
-                            s[x],
-                            style: TextStyle(
-                              fontSize: 20.0,
-                              color: texcol,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                          flex: flex,
+                          child: show,
                         ),
                         off,
                       ],
