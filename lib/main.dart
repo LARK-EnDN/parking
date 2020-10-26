@@ -31,6 +31,12 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     readAllData();
+    gettoken();
+  }
+  Future<void> gettoken()async{
+    String token = await firebaseMessaging.getToken();
+    var valset = {'$token': 'token'};
+    await Ref.child('token').update(valset);
   }
 
   Future<void> readAllData() async {
