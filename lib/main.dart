@@ -452,7 +452,6 @@ class _MyAppState extends State<MyApp> {
           fontWeight: FontWeight.bold,
         ),
       );
-      print(x+'='+soff[x]);
       if(s[x] == 'ไม่ว่าง' && soff[x] !=''){
         flex = 0;
         show = SizedBox(width: 0);
