@@ -423,7 +423,9 @@ class _MyAppState extends State<MyApp> {
     var xout, a = sall[x], bb = resall[x];
     if (s[x] == null || s[x] == '') {
       s[x] = 'ไม่ว่าง';
-      if (bsta[xx] != 2) {off = SizedBox(width: 0);}
+      if (bsta[xx] != 2 && soff[x]=='') {
+          off = SizedBox(width: 0);
+      }
     } else if (sall[x] != null) {
       a = int.parse('$a');
       b = int.parse('$bb');
@@ -458,11 +460,17 @@ class _MyAppState extends State<MyApp> {
           fontWeight: FontWeight.bold,
         ),
       );
-      if(s[x] == 'ไม่ว่าง' && soff[x] !=''){
+      if(s[x] == 'ไม่ว่าง' && soff[x] !='' && i!=4){
         flex = 0;
         show = SizedBox(width: 0);
         off = offline(i, b, index + 1);
+
+        // off = SizedBox(width: 0);
+      }else if(s[x] == 'ไม่ว่าง' && soff[x] !='' && i==4){
+        flex = 0;
+        show = SizedBox(width: 0);
       }
+
     }
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
